@@ -2,6 +2,11 @@ import networkx as nx
 from typing import List, Union, Tuple
 import numpy as np
 
+from dowhy.causal_identifier import identify_effect_auto, BackdoorAdjustment
+from tigramite.causal_effects import CausalEffects
+from typing import Optional
+
+
 class CausalGraph:
     """
     Causal graph representation built from a Tigramite-style string adjacency matrix and variable names.
@@ -117,3 +122,66 @@ class CausalGraph:
         )
     def __repr__(self):
         return f"CausalGraph(variables={self.variable_names})"
+    
+
+    def get_adjustment_set(self, X: List[Tuple[int, int]], Y: List[Tuple[int, int]], type: str = 'minimal') -> Optional[List[str]]:
+        """
+        Get the adjustment set for the given treatment and outcome variables.
+
+        Parameters:
+        - A: List of treatment variable names
+        - Y: List of outcome variable names
+        - type: The type of adjustment set to return (e.g., 'minimal').
+
+        Returns:
+        - List of variable names in the adjustment set
+        """
+        if self.graph_type == 'dag':
+            pass
+        elif self.graph_type == 'cpdag':
+            # perkovic adjustment set
+            pass
+        elif self.graph_type == 'admg':
+            pass
+        elif self.graph_type == 'pag':
+            pass
+
+        return None
+
+    def get_maximal_adjustment_set(self, X: List[Tuple[int, int]], Y: List[Tuple[int, int]]) -> List[str]:
+        """
+        Get the maximal adjustment set for the given treatment and outcome variables.
+
+        Parameters:
+        - A: List of treatment variable names
+        - Y: List of outcome variable names
+
+        Returns:
+        - List of variable names in the maximal adjustment set
+        """
+        # This is a placeholder for the actual implementation.
+        # The logic will depend on the graph type and structure.
+        return []
+    
+    def get_optimal_adjustment_set(self, 
+                                   X: List[Tuple[int, int]], 
+                                   Y: List[Tuple[int, int]], 
+                                   S: Optional[List[Tuple[int, int]]] = None,
+                                   hidden_variables: Optional[List[Tuple[int, int]]] = None
+                                   ) -> Optional[List[Tuple[int, int]]]:
+        """
+        Get the optimal adjustment set for the given treatment and outcome variables.
+
+        Parameters:
+        - A: List of treatment variable names
+        - Y: List of outcome variable names
+
+        Returns:
+        - List of variable names in the optimal adjustment set
+        """
+        # This is a placeholder for the actual implementation.
+        # The logic will depend on the graph type and structure.
+        causal_effects = CausalEffects(self.adjacency_matrix, graph_type=self.graph_type,
+                                       X=X, Y=Y, S=S, hidden_variables=hidden_variables)
+        opt_set = causal_effects.get_optimal_set()
+        return opt_set
