@@ -1,1 +1,10 @@
 from dowhy import CausalModel
+
+
+class EffectEstimator():
+    def __init__(self, model):
+        self.model = model
+
+    def estimate(self, X, Y):
+        pass
+
